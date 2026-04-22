@@ -1,8 +1,13 @@
 import jwt from 'jsonwebtoken'
+import { Request, Response, NextFunction } from 'express'
 
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = process.env.JWT_SECRET!
 
-export function authMiddleware(req, res, next) {
+export interface AuthRequest extends Request {
+    user?: any;
+}
+
+export function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
     const auth = req.headers.authorization
 
     if (!auth?.startsWith('Bearer ')) {

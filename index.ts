@@ -1,9 +1,9 @@
 import 'dotenv/config'
-import express from 'express'
+import express, { Express } from 'express'
 import authRouter from './src/routes/auth.js'
 import criancasRouter from './src/routes/criancas.js'
 
-const app = express()
+const app: Express = express()
 
 app.use(express.json())
 
