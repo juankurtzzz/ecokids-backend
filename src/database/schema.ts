@@ -10,7 +10,7 @@ export const criancas = pgTable('criancas', {
 })
 
 export const user = pgTable('user', {
-    id:serial('id').primaryKey(),
+    id: serial('id').primaryKey(),
     email: varchar('email', { length: 150 }).notNull(),
     password: varchar('password', { length: 150 }).notNull(),
 })

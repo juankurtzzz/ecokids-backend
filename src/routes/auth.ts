@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
             return res.status(403).json({ message: 'Usuário admin já existe' })
         }
 
-        const [newUser] = await db.insert(user).values({ name, email, password }).returning()
+        const [newUser] = await db.insert(user).values({ email, password }).returning()
         res.status(201).json({ message: 'Usuário criado', id: newUser.id })
     } catch (error) {
         console.log(error)
@@ -42,7 +42,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' })
         }
 
-        const token = jwt.sign({ id: found.id, email: found.email }, JWT_SECRET, {
+        const token = jwt.sign({ id: found.id, email: found.email }, JWT_SECRET!, {
             expiresIn: '8h'
         })
 

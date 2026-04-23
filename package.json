@@ -2,9 +2,10 @@
   "name": "EcoKids",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "node --watch index.js"
+    "build": "rm -rf dist/ && tsc",
+    "dev": "node --loader ts-node/esm --watch-path=src --watch index.ts"
   },
   "type": "module",
   "private": true,
@@ -16,7 +17,11 @@
     "pg": "^8.20.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
-    "drizzle-kit": "^0.31.10"
+    "@types/node": "^25.6.0",
+    "drizzle-kit": "^0.31.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
   }
 }
