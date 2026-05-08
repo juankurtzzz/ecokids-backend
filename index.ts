@@ -8,7 +8,10 @@ import criancasRouter from './src/routes/criancas.js'
 const app: Express = express()
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3001'
+    origin: [
+        'http://localhost:3001',
+        'https://ecokids-catanduvas.vercel.app'
+    ]
 }))
 
 app.use(express.json())
