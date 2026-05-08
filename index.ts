@@ -8,7 +8,7 @@ import criancasRouter from './src/routes/criancas.js'
 const app: Express = express()
 
 app.use(cors({
-    origin: 'http://localhost:3001'
+    origin: process.env.FRONTEND_URL || 'http://localhost:3001'
 }))
 
 app.use(express.json())
@@ -16,10 +16,10 @@ app.use(express.json())
 app.use(authRouter)
 app.use(criancasRouter)
 
-const port = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000
 
-app.listen(port, () => {
-    console.log(`Server rodando na porta ${port}`)
+app.listen(PORT, () => {
+    console.log(`Server rodando na porta ${PORT}`)
 })
 
 export default app
