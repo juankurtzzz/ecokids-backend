@@ -1,9 +1,15 @@
 import 'dotenv/config'
 import express, { Express } from 'express'
+import cors from 'cors'
+
 import authRouter from './src/routes/auth.js'
 import criancasRouter from './src/routes/criancas.js'
 
 const app: Express = express()
+
+app.use(cors({
+    origin: 'http://localhost:3001'
+}))
 
 app.use(express.json())
 

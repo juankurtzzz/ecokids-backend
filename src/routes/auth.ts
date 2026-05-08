@@ -3,9 +3,9 @@ import { db } from '../database/db.js'
 import { user } from '../database/schema.js'
 import { eq } from 'drizzle-orm'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const router = Router()
-const JWT_SECRET = process.env.JWT_SECRET
 
 router.post('/register', async (req, res) => {
     try {
@@ -20,7 +20,9 @@ router.post('/register', async (req, res) => {
             return res.status(403).json({ message: 'Usuário admin já existe' })
         }
 
-        const [newUser] = await db.insert(user).values({ email, password }).returning()
+        const hash = await bcrypt.hash(password, 10)
+        const [newUser] = await db.insert(user).values({ email, password: hash }).returning()
+
         res.status(201).json({ message: 'Usuário criado', id: newUser.id })
     } catch (error) {
         console.log(error)
@@ -38,11 +40,17 @@ router.post('/login', async (req, res) => {
 
         const [found] = await db.select().from(user).where(eq(user.email, email))
 
-        if (!found || found.password !== password) {
+        if (!found) {
             return res.status(401).json({ message: 'Credenciais inválidas' })
         }
 
-        const token = jwt.sign({ id: found.id, email: found.email }, JWT_SECRET!, {
+        const senhaCorreta = await bcrypt.compare(password, found.password)
+        if (!senhaCorreta) {
+            return res.status(401).json({ message: 'Credenciais inválidas' })
+        }
+
+        const JWT_SECRET = process.env.JWT_SECRET!
+        const token = jwt.sign({ id: found.id, email: found.email }, JWT_SECRET, {
             expiresIn: '8h'
         })
 
