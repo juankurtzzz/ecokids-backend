@@ -3,7 +3,7 @@ import { db } from '../database/db.js'
 import { user } from '../database/schema.js'
 import { eq } from 'drizzle-orm'
 import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 
 const router = Router()
 
