@@ -9,9 +9,9 @@ const router = Router()
 
 router.post('/register', async (req, res) => {
     try {
-        const { name, email, password } = req.body
+        const { email, password } = req.body
 
-        if (!name || !email || !password) {
+        if (!email || !password) {
             return res.status(400).json({ message: 'Preencha todos os campos' })
         }
 
@@ -49,7 +49,10 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' })
         }
 
-        const JWT_SECRET = process.env.JWT_SECRET!
+        const JWT_SECRET = process.env.JWT_SECRET
+        if (!JWT_SECRET) {
+            return res.status(500).json({ message: 'Erro de configuração do servidor' })
+        }
         const token = jwt.sign({ id: found.id, email: found.email }, JWT_SECRET, {
             expiresIn: '8h'
         })
